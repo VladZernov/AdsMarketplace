@@ -1,0 +1,280 @@
+﻿<!--make grid later-->
+@using AdsMarketplace.WebUI.Models;
+@model AdvertisementModel
+
+@{
+    ViewBag.Title = "Advertisements";
+}
+
+@foreach (var ad in @Model.Advertisements)
+{
+    <div>
+        <h3>@ad.ItemName</h3>
+        <p>@Html.Raw("<pre>" + Html.Encode(ad.ItemDescription) + "</pre>")</p>
+        <h4>@ad.Price.ToString() $</h4>
+        <h4>@ad.DealType.DealTypeName</h4>
+        <h4>@ad.Status.StatusName</h4>
+        <h4>@ad.Condition.ConditionName</h4>
+        <h4>@ad.User.FirstName @ad.User.LastName </h4>
+        <h4>@ad.User.Phone </h4>
+        <h4>@ad.User.City </h4>
+    </div>
+}
+
+
+
+@*@model IEnumerable<Advertisement_View>
+
+@{
+    ViewBag.Title = "Advertisements list";
+}
+
+
+@using (Html.BeginForm("Index", "Advertisement", FormMethod.Get))
+{
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#" style="color:deepskyblue; font-family: 'Segoe UI'">
+                        FILTERS
+                    </a>
+                </li>
+                <li>
+                    @Html.Hidden("minprice", Html.ViewData["Minprice"])
+                    @Html.Hidden("maxprice", Html.ViewData["Maxprice"])
+                </li>
+                <li style="color:white">
+                    <b>Condition:</b>
+                    @Html.RadioButton("condition", "All", true) <text>All</text>
+                    @Html.RadioButton("condition", "A") <text>A</text>
+                    @Html.RadioButton("condition", "B") <text>B</text>
+                    @Html.RadioButton("condition", "C") <text>C</text>
+                    @Html.RadioButton("condition", "D") <text>D</text>
+                </li>
+                <li style="color:white">
+                    <b>Deal Type:</b>
+                    @Html.RadioButton("deal_type", "All", true) <text>All</text>
+                    @Html.RadioButton("deal_type", "Sale") <text>Sale</text>
+                    @Html.RadioButton("deal_type", "Exchange") <text>Exchange</text>
+                    @Html.RadioButton("deal_type", "Other") <text>Other</text>
+                </li>
+                <li>
+                    <b style="color:white">Price range:</b>
+                    <input type="text" class="form-control" id="amount" readonly style="border:0; font-weight:bold; margin-left: 35px; margin-bottom: 10px" />
+                    <div id="slider-range" style="margin-left: 20px; margin-right: 20px; margin-bottom: 10px"></div>
+                </li>
+                <li>
+                    <input type="submit" value="Confirm" />
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="container" style="margin-top: 10px; margin-bottom: 10px">
+                            <div class="row">
+                                <div class="btn-group btn-breadcrumb">
+
+                                    <a href="@Url.Action("Index", "TopCategory")" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Categories</a>
+                                    <a href="@Url.Action("Category_List", "TopCategory", new { id = Model.ElementAt(0).TopCategoryId })" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> @Model.ElementAt(0).TopCategoryName</a>
+                                    <a href="#" class="btn btn-default"><span class=" glyphicon glyphicon-tags"></span> @Model.ElementAt(0).CategoryName</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px">
+                            <a href="#menu-toggle" class="btn btn-info" id="menu-toggle">FILTERS</a>
+
+                        </div>
+                        <div class="btn-group" style="margin-bottom: 10px; margin-right: 40px">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Count <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"],  id = Model.ElementAt(0).Category, count = 5, page = 0, skip = 5}, null)">5</a></li>
+                                <li><a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"],  id = Model.ElementAt(0).Category, count = 10, page = 0, skip = 10}, null)">10</a></li>
+                                <li><a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"],  id = Model.ElementAt(0).Category, count = 25, page = 0, skip = 25}, null)">25</a></li>
+                                <li><a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"],  id = Model.ElementAt(0).Category, count = 50, page = 0, skip = 50}, null)">50</a></li>
+                            </ul>
+                        </div>
+
+                        <b>Keyword:</b>
+                        @Html.TextBox("keyword")
+
+
+                        <div>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Skip"], page = 0, skip = (int)Html.ViewData["Skip"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSortParm, id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Skip"], page = 0, skip = (int)Html.ViewData["Skip"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Deal type", "Index", new { sortOrder = ViewBag.DealTypeSortParm, id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Skip"], page = 0, skip = (int)Html.ViewData["Skip"] })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Condition", "Index", new { sortOrder = ViewBag.StatusSortParm, id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Skip"], page = 0, skip = (int)Html.ViewData["Skip"] })
+                                    </th>
+                                    <th>
+                                        Brief descryption
+                                    </th>
+                                    <th>
+                                        Published by
+                                    </th>
+                                    <th>
+                                        Image
+                                    </th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DealTypeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ConditionName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemDescryption)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.First_name) @Html.DisplayFor(modelItem => item.Last_name)
+                                        </td>
+                                        <td>
+                                            <img src="~/Content/img/@Html.DisplayFor(model =>item.ImageName)" style="height:230px;width:200px;" />
+                                        </td>
+                                        <td>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                @Html.ActionLink("Add to Favorites", "AddToFavorites", "Advertisement", item, null)
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @Html.ActionLink("Details", "Details", "Advertisement", item, null)
+                                        </td>
+
+                                    </tr>
+                                }
+                            </table>
+                            @if (((int)Html.ViewData["Page"] == 0) && ((int)Html.ViewData["NumOfRows"] <= (int)Html.ViewData["Count"] * ((int)Html.ViewData["Page"] + 1)))
+                            {
+                                <div>
+                                </div>
+                            }
+                            else if ((int)Html.ViewData["Page"] == 0)
+                            {
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="@Url.Action( "Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Count"], page = ((int)Html.ViewData["Page"] + 1), skip = (int)Html.ViewData["Count"] }, null)"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                            else if ((int)Html.ViewData["NumOfRows"] <= (int)Html.ViewData["Skip"] * ((int)Html.ViewData["Page"] + 1))
+                            {
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Skip"], page = ((int)Html.ViewData["Page"] - 1), skip = (int)Html.ViewData["Skip"] }, null)"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                            else if ((int)Html.ViewData["NumOfRows"] < (int)Html.ViewData["Count"] * ((int)Html.ViewData["Page"] + 2))
+                            {
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Count"], page = ((int)Html.ViewData["Page"] - 1), skip = (int)Html.ViewData["Count"] }, null)"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = ((int)Html.ViewData["NumOfRows"] - (int)Html.ViewData["Count"] * ((int)Html.ViewData["Page"] + 1)), page = ((int)Html.ViewData["Page"] + 1), skip = (int)Html.ViewData["Count"] }, null)"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                            else
+                            {
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Count"], page = ((int)Html.ViewData["Page"] - 1), skip = (int)Html.ViewData["Count"] }, null)"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Advertisement", new { sortOrder = (string)Html.ViewData["SortOrder"], id = Model.ElementAt(0).Category, count = (int)Html.ViewData["Count"], page = ((int)Html.ViewData["Page"] + 1), skip = (int)Html.ViewData["Count"] }, null)"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+
+        </div>
+    </div>
+    <!-- /#wrapper -->
+}
+
+
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<script>
+    $(function () {
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 10000,
+            values: [document.getElementById("minprice").value, document.getElementById("maxprice").value],
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#minprice").val(ui.values[0]);
+                $("#maxprice").val(ui.values[1]);
+            }
+        });
+
+        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+          " - $" + $("#slider-range").slider("values", 1));
+    });
+
+
+    $(document).ready(function () {
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 5000);
+
+    });
+
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>*@
