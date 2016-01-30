@@ -80,8 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAdvertisementRepository.cs" />
+    <Compile Include="Abstract\ICategoryRepository.cs" />
     <Compile Include="Concrete\EFAdvertisementRepository.cs" />
     <Compile Include="Concrete\AdsContext.cs" />
+    <Compile Include="Concrete\EFCategoryRepository.cs" />
     <Compile Include="Entities\Advertisement.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Condition.cs" />
