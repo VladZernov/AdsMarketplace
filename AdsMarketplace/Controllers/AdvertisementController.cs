@@ -19,7 +19,7 @@ namespace AdsMarketplace.WebUI.Controllers
 
         public ViewResult List()
         {
-            AdvertisementModel model = new AdvertisementModel
+            AdvertisementListModel model = new AdvertisementListModel
             {
                 Advertisements = repository.Advertisements
             };

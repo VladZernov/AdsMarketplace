@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdsMarketplace.WebUI.Models
 {
-    public class AdvertisementModel
+    public class AdvertisementListModel
     {
         public IEnumerable<Advertisement> Advertisements { get; set; }
 

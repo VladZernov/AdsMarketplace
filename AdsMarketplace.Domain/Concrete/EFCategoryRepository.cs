@@ -4,7 +4,7 @@ using AdsMarketplace.Domain.Abstract;
 
 namespace AdsMarketplace.Domain.Concrete
 {
-    class EFCategoryRepository : ICategoryRepository
+    public class EFCategoryRepository : ICategoryRepository
     {
         AdsContext context = new AdsContext();
 

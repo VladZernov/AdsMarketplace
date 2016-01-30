@@ -1,0 +1,39 @@
+﻿<!--make grid later-->
+@using AdsMarketplace.WebUI.Models;
+@model CategoryListModel
+
+@{
+    ViewBag.Title = "Top Categories";
+}
+
+<h2>Top Categories</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        @*<th>
+            Number of ads
+        </th>*@
+    </tr>
+
+    @foreach (var item in Model.TopCategories)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.TopCategoryName, "SubCategoriesList", new { id = item.TopCategoryId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>
+                
+            </td>*@
+        </tr>
+    }
+
+</table>

@@ -36,6 +36,8 @@ namespace AdsMarketplace.WebUI.Infrastructure
             //Привязка указывает Ninject о том, что для обслуживания запросов к интерфейсу IAdvertisementRepository 
             //необходимо создавать экземпляры класса EFAdvertisementRepository
             kernel.Bind<IAdvertisementRepository>().To<EFAdvertisementRepository>();
+
+            kernel.Bind<ICategoryRepository>().To<EFCategoryRepository>();
         }
     }
 }
